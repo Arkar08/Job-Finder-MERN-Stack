@@ -47,7 +47,7 @@ export const signupUserController = async(req,res)=>{
             if(!name || !email || !password || !contact || !address || !user_Type ){
                 return res.status(404).json('Plz filled out in the form field.')
             }
-        const existEmail = await Users.findOne({ email });
+        const existEmail = await Users.findOne({ email:email });
             if (existEmail) {
             return res.status(400).json("Email is already exist");
             }
