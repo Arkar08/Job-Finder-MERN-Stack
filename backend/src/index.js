@@ -3,8 +3,6 @@ import connectDb from './db/connectDB.js'
 import dotenv from 'dotenv'
 import userRouter from './routes/userRoute.js'
 
-
-
 dotenv.config()
 
 
