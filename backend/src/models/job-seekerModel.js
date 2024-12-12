@@ -1,12 +1,16 @@
 import mongoose from "mongoose";
 
 const jobSeekerSchema = new mongoose.Schema({
+    userId:{
+        type:mongoose.Schema.Types.ObjectId,
+        refs:'Users',
+        required:true
+    },
     resume:{
         type:String
     },
     skills:{
-        type:mongoose.Schema.Types.ObjectId,
-        refs:'JobSkill',
+        type:String,
         required:true
     },
     education:{
