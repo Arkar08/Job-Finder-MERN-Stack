@@ -29,6 +29,7 @@ app.use('/api/v1/seeker',seekRouter)
 
 
 
+
 app.listen(PORT,async()=>{
     console.log(`server is running ${PORT}`)
      await connectDb()
