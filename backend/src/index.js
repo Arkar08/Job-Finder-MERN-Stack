@@ -2,6 +2,9 @@ import express from 'express'
 import connectDb from './db/connectDB.js'
 import dotenv from 'dotenv'
 import userRouter from './routes/userRoute.js'
+import employerRouter from './routes/employerRoute.js'
+import { middleware } from './middlewares/middleware.js'
+import authRouter from './routes/authRoute.js'
 
 dotenv.config()
 
@@ -18,7 +21,9 @@ app.get('/',(req,res)=>{
 })
 
 //all routes
-app.use('/api/v1/user',userRouter)
+app.use('/api/v1/user',middleware,userRouter)
+app.use('/api/v1/employer',middleware,employerRouter)
+app.use('/api/v1/auth',authRouter)
 
 
 

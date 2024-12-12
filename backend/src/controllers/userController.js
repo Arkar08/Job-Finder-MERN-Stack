@@ -85,3 +85,35 @@ export const logoutController = async(req,res)=>{
       });
     return res.status(200).json("logout successfully");
 }
+
+
+
+// export const getIdUserController = async(req,res)=>{
+//     try {
+//         const {id} = req.params;
+//         const getIdUser = await Users.findById({_id:id})
+//         if(getIdUser){
+//             return res.status(200).json(getIdUser)
+//         }else{
+//             return res.status(404).json('Not Found')
+//         }
+//     } catch (error) {
+//         return res.status(500).json(error)
+//     }
+// }
+
+// export const patchUserController = async(req,res)=>{
+//     try {
+//         const {id} = req.params;
+//         const updataUser = await Users.findByIdAndUpdate({_id:id},{...req.body})
+//         if(updataUser){
+//             const patchData = await Users.findById({_id:id})
+//             return res.status(200).json(patchData)
+//         }else{
+//             return res.status(404).json('Not Found')
+//         }
+//     } catch (error) {
+//         console.log(error)
+//         return res.status(500).json(error)
+//     }
+// }
