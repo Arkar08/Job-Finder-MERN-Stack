@@ -8,6 +8,8 @@ import authRouter from './routes/authRoute.js'
 import seekRouter from './routes/seekerRoute.js'
 import jobRouter from './routes/jobRoute.js'
 import applicationnRouter from './routes/applicationRoute.js'
+import jobCategoryRouter from './routes/jobCategoryRoute.js'
+import jobSkillRouter from './routes/jobSkillsRoute.js'
 
 dotenv.config()
 
@@ -30,6 +32,8 @@ app.use('/api/v1/employer',middleware,checkTokenID,employerRouter)
 app.use('/api/v1/seeker',middleware,checkTokenID,seekRouter)
 app.use('/api/v1/jobs',middleware,checkTokenID,jobRouter)
 app.use('/api/v1/application',middleware,checkTokenID,applicationnRouter)
+app.use('/api/v1/category',middleware,jobCategoryRouter)
+app.use('/api/v1/skill',middleware,jobSkillRouter)
 
 
 

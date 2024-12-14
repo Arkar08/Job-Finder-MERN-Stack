@@ -5,7 +5,6 @@ import Employer from '../models/employerModel.js'
 
 
 export const postJobController = async(req,res)=>{
-    console.log(req.body)
     try {
             const {title,description,job_location,salary,job_type,category} = req.body;
             if(!title || !description || !job_location || !salary || !job_type){
