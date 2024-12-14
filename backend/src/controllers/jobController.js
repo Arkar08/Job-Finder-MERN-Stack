@@ -5,6 +5,7 @@ import Employer from '../models/employerModel.js'
 
 
 export const postJobController = async(req,res)=>{
+    console.log(req.body)
     try {
             const {title,description,job_location,salary,job_type,category} = req.body;
             if(!title || !description || !job_location || !salary || !job_type){
@@ -21,9 +22,9 @@ export const postJobController = async(req,res)=>{
                 job_type:req.body.job_type
             })
             if(newJob){
-                const getJob = await JobPost.find({employerId:userBody._id})
+                const getJob = await JobPost.find({employerId:req.body.userId})
                 const postJob = getJob.length;
-                const findEmployer = await Employer.find({userId:userBody._id})
+                const findEmployer = await Employer.find({userId:req.body.userId})
                 await Employer.findByIdAndUpdate({_id:findEmployer[0]._id},{job_limit:postJob})
                 return res.status(201).json(newJob)
             }
