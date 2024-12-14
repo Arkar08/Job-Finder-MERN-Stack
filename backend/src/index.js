@@ -7,6 +7,7 @@ import { middleware } from './middlewares/middleware.js'
 import authRouter from './routes/authRoute.js'
 import seekRouter from './routes/seekerRoute.js'
 import jobRouter from './routes/jobRoute.js'
+import applicationnRouter from './routes/applicationRoute.js'
 
 dotenv.config()
 
@@ -28,6 +29,7 @@ app.use('/api/v1/user',middleware,userRouter)
 app.use('/api/v1/employer',middleware,employerRouter)
 app.use('/api/v1/seeker',seekRouter)
 app.use('/api/v1/jobs',middleware,jobRouter)
+app.use('/api/v1/application',middleware,applicationnRouter)
 
 
 

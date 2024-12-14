@@ -2,6 +2,7 @@ import JobCategory from '../models/job-categoryModel.js';
 import JobPost from '../models/job-postModel.js';
 import Users from '../models/userModel.js';
 import jwt from 'jsonwebtoken'
+import Employer from '../models/employerModel.js'
 
 
 export const postJobController = async(req,res)=>{
@@ -28,9 +29,16 @@ export const postJobController = async(req,res)=>{
                 salary:req.body.salary,
                 job_type:req.body.job_type
             })
-            return res.status(201).json(newJob)
+            if(newJob){
+                const getJob = await JobPost.find({employerId:userBody._id})
+                const postJob = getJob.length;
+                const findEmployer = await Employer.find({userId:userBody._id})
+                await Employer.findByIdAndUpdate({_id:findEmployer[0]._id},{job_limit:postJob})
+                return res.status(201).json(newJob)
+            }
        }
     } catch (error) {
+        console.log(error)
         return res.status(500).json(error)
     }
 }
@@ -129,3 +137,4 @@ export const deleteJobController = async(req,res)=>{
         return res.status(500).json(error)
     }
 }
+

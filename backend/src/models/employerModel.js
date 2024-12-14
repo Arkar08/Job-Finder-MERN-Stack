@@ -8,7 +8,6 @@ const employerSchema = new mongoose.Schema({
     },
     companyName:{
         type:String,
-        required:true
     },
     companyAddress:{
         type:String,

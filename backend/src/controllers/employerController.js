@@ -19,13 +19,19 @@ export const postEmployerController = async(req,res)=>{
             if(!companyName || !companyAddress || !companyContact){
                 return res.status(400).json("Plz Filled Out In the Fields.")
             }
-            const newEmployer = await Employer.create({
-                userId:userBody._id,
-                companyName:req.body.companyName,
-                companyAddress:req.body.companyAddress,
-                companyContact:req.body.companyContact
-            })
-            return res.status(201).json(newEmployer)
+            const filterEmployer = await Employer.find({userId:userBody._id})
+            if(filterEmployer){
+                return res.status(404).json('employer is already exist .please update')
+            }else{
+                const newEmployer = await Employer.create({
+                    userId:userBody._id,
+                    companyName:req.body.companyName,
+                    companyAddress:req.body.companyAddress,
+                    companyContact:req.body.companyContact
+                })
+                return res.status(201).json(newEmployer)
+            }
+         
         }else{
             return res.status(404).json('Not authrized as job_seeker')
         }
