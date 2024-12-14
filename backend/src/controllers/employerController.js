@@ -1,40 +1,28 @@
 import Employer from '../models/employerModel.js'
 import Users from '../models/userModel.js';
-import jwt from 'jsonwebtoken'
 
 
 
 
 export const postEmployerController = async(req,res)=>{
     try {
-        const token = req.headers.authorization;
-        if(!token){
-            return res.status(400).json("no token");
-        }
-        const sliceToken = token.slice(7);
-        const decoded = jwt.verify(sliceToken, process.env.secret_key);
-        const userBody = await Users.findById(decoded.userId)
-       if(userBody.user_Type === 'employer'){
+        
             const {companyName,companyAddress,companyContact} = req.body
             if(!companyName || !companyAddress || !companyContact){
                 return res.status(400).json("Plz Filled Out In the Fields.")
             }
-            const filterEmployer = await Employer.find({userId:userBody._id})
+            const filterEmployer = await Employer.find({userId:req.body.userId})
             if(filterEmployer){
                 return res.status(404).json('employer is already exist .please update')
             }else{
                 const newEmployer = await Employer.create({
-                    userId:userBody._id,
+                    userId:req.body.userId,
                     companyName:req.body.companyName,
                     companyAddress:req.body.companyAddress,
                     companyContact:req.body.companyContact
                 })
                 return res.status(201).json(newEmployer)
             }
-         
-        }else{
-            return res.status(404).json('Not authrized as job_seeker')
-        }
     } catch (error) {
         console.log(error)
         return res.status(500).json(error)

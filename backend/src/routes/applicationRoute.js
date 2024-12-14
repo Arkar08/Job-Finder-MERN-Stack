@@ -1,5 +1,5 @@
 import express from 'express'
-import { getJobPostIdApplicationController, getUserIdApplicationController, patchAppicationController, postApplicationController } from '../controllers/applicationController.js';
+import { getJobPostIdApplicationController, getUserIdApplicationController, postApplicationController,patchAppicationController } from '../controllers/applicationController.js';
 
 const router = express.Router()
 

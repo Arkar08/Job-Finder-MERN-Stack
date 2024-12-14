@@ -1,24 +1,16 @@
 import Users from '../models/userModel.js'
-import jwt from 'jsonwebtoken'
 import JobSeeker from '../models/job-seekerModel.js'
 
 
 export const postSeekerController = async(req,res)=>{
     try {
-        const token = req.headers.authorization;
-        if(!token){
-            return res.status(400).json("no token");
-        }
-        const sliceToken = token.slice(7);
-        const decoded = jwt.verify(sliceToken, process.env.secret_key);
-        const userBody = await Users.findById(decoded.userId)
-       if(userBody.user_Type === 'job-seeker'){
+     
             const {resume,skills,education,experience,salary,location} = req.body
             if(!skills ||!location){
                 return res.status(400).json("Plz Filled Out In the Fields.")
             }
             const newSeeker = await JobSeeker.create({
-                userId:userBody._id,
+                userId:req.body.userId,
                 resume:resume,
                 skills:req.body.skills,
                 education:education,
@@ -27,9 +19,6 @@ export const postSeekerController = async(req,res)=>{
                 location:req.body.location
             })
             return res.status(201).json(newSeeker)
-        }else{
-            return res.status(404).json('Not authrized as employer')
-        }
     } catch (error) {
         console.log(error)
         return res.status(500).json(error)

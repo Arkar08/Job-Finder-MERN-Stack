@@ -1,27 +1,18 @@
 import JobCategory from '../models/job-categoryModel.js';
 import JobPost from '../models/job-postModel.js';
 import Users from '../models/userModel.js';
-import jwt from 'jsonwebtoken'
 import Employer from '../models/employerModel.js'
 
 
 export const postJobController = async(req,res)=>{
     try {
-        const token = req.headers.authorization;
-        if(!token){
-            return res.status(400).json("no token");
-        }
-        const sliceToken = token.slice(7);
-        const decoded = jwt.verify(sliceToken, process.env.secret_key);
-        const userBody = await Users.findById(decoded.userId)
-       if(userBody.user_Type === 'employer'){
             const {title,description,job_location,salary,job_type,category} = req.body;
             if(!title || !description || !job_location || !salary || !job_type){
                 return res.status(404).json('Plz Filled out in the form field.')
             }
             const findCateogryId = await JobCategory.find({categoryName:category})
             const newJob = await JobPost.create({
-                employerId:userBody._id,
+                employerId:req.body.userId,
                 jobCategoryId:findCateogryId[0]._id,
                 title:req.body.title,
                 description:req.body.description,
@@ -36,7 +27,6 @@ export const postJobController = async(req,res)=>{
                 await Employer.findByIdAndUpdate({_id:findEmployer[0]._id},{job_limit:postJob})
                 return res.status(201).json(newJob)
             }
-       }
     } catch (error) {
         console.log(error)
         return res.status(500).json(error)

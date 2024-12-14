@@ -8,8 +8,8 @@ export const middleware = async(req, res, next) => {
   const token = req.headers.authorization;
   if (token) {
     try {
-      const sliceToken = token.slice(7);
-      const decoded = jwt.verify(sliceToken, process.env.secret_key);
+      const sliceToken = token.split(" ")
+      const decoded = jwt.verify(sliceToken[1], process.env.secret_key);
       req.user = await Users.findById(decoded.userId)
       if (!req.user) {
         return res.status(404).json("User not found");
@@ -23,6 +23,20 @@ export const middleware = async(req, res, next) => {
   }
 };
 
+export const checkTokenID = async (req, res , next) => {
+  const token  = req.headers.authorization;
+  const sliceToken = token.split(" ")
+      const data = jwt.verify(sliceToken[1], process.env.secret_key);
+  if(data.userId){
+     req.body.userId = data.userId;
+    next();
+  }else{
+    res.status(404).json({
+      staus: "error", 
+      message: "not found",
+    })
+  }
+}
 export const authorizeSeeker = (req, res, next) => {
   if (req.user && req.user.user_Type === 'job-seeker') {
     next();
